@@ -15,7 +15,7 @@ export const concerns: { id: PlantConcern; label: string; prompt: string }[] = [
   { id: "womens-care", label: "Women’s Care", prompt: "I want plants traditionally used in women’s care." },
 ];
 
-export const plants: Plant[] = [
+const corePlants = [
   {
     slug: "peppermint",
     name: "Peppermint",
@@ -303,9 +303,9 @@ export const plants: Plant[] = [
     ],
     gardenNotes: ["Tropical tree", "Spice harvest", "Potent oil"],
   },
-  ...stockPlants,
-  ...addedPlants,
-]
+] satisfies Plant[];
+
+export const plants: Plant[] = [...corePlants, ...stockPlants, ...addedPlants]
   .filter((plant) => hasPlantImage(plant.slug))
   .sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
 

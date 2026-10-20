@@ -1,4 +1,4 @@
-import { plantPortraitKind, plantPortraitSrc } from "@/lib/media";
+import { plantPortraitSrc } from "@/lib/media";
 import { BotanicMark } from "@/components/BotanicMark";
 
 export function PlantPortrait({
@@ -37,9 +37,7 @@ export function PlantPortrait({
 
   const fit = circle
     ? "object-cover object-center"
-    : plantPortraitKind(slug) === "character"
-      ? "object-cover object-[center_18%]"
-      : "object-contain object-center";
+    : "object-contain object-center";
 
   return (
     <div className={box}>
