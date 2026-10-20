@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-label="Money Tree">
+  <rect width="320" height="320" fill="#1A1613"/>
+  <g transform="translate(160 188)">
+    <ellipse cx="0" cy="78" rx="70" ry="18" fill="#0f0d0b"/>
+    <path d="M-18 70 C-40 20 -28 -10 -8 -8 C-18 18 8 38 18 70 C8 48 -6 52 -18 70Z" fill="#3d5c3a"/>
+    <path d="M8 70 C28 18 12 -16 32 -10 C48 8 36 40 22 70Z" fill="#4a7344"/>
+    <circle cx="0" cy="-8" r="46" fill="#d9b394"/>
+    <path d="M-28 -2 C-18 12 18 12 28 -2" fill="none" stroke="#7a4b32" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="-16" cy="-14" r="4" fill="#1A1613"/>
+    <circle cx="16" cy="-14" r="4" fill="#1A1613"/>
+    <circle cx="34" cy="6" r="9" fill="#C5A572" stroke="#8a6a38" stroke-width="2"/>
+    <path d="M-44 -38 C-70 -88 -20 -108 0 -72 C20 -108 70 -88 44 -38 C28 -70 0 -58 -0 -58 C0 -58 -28 -70 -44 -38Z" fill="#2f6a3a"/>
+    <ellipse cx="-38" cy="-70" rx="22" ry="28" fill="#3f8a4a" transform="rotate(-28)"/>
+    <ellipse cx="0" cy="-86" rx="24" ry="30" fill="#4fa35c"/>
+    <ellipse cx="40" cy="-68" rx="22" ry="28" fill="#3f8a4a" transform="rotate(24)"/>
+    <ellipse cx="-58" cy="-48" rx="18" ry="24" fill="#2f6a3a" transform="rotate(-50)"/>
+    <ellipse cx="58" cy="-46" rx="18" ry="24" fill="#2f6a3a" transform="rotate(50)"/>
+    <circle cx="-6" cy="-64" r="7" fill="#C5A572"/>
+    <circle cx="18" cy="-78" r="5" fill="#e0c48a"/>
+  </g>
+</svg>

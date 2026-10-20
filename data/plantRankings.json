@@ -1,0 +1,11 @@
+{
+  "sleep": ["passionflower", "valerian", "lavender", "lemon-balm", "chamomile", "cannabis"],
+  "stress": ["lavender", "ashwagandha", "st-johns-wort", "lemon-balm", "passionflower", "chamomile", "kava", "saffron"],
+  "digestion": ["ginger", "peppermint", "spearmint", "turmeric", "dandelion", "chamomile", "lemon-balm", "fennel", "cinnamon", "licorice", "hibiscus"],
+  "pain": ["arnica", "feverfew", "turmeric", "clove", "rosemary", "cannabis"],
+  "energy": ["ginseng", "ashwagandha", "ginkgo", "maca", "moringa", "green-tea", "guayusa", "bacopa", "astragalus"],
+  "liver": ["milk-thistle", "dandelion"],
+  "immunity": ["clove", "elderberry", "echinacea", "oregano", "thyme", "eucalyptus", "mullein", "garlic", "astragalus", "cats-claw", "nigella"],
+  "skin": ["aloe", "calendula", "nettle", "rosemary", "callisia", "tea-tree", "gotu-kola", "dragon-blood"],
+  "womens-care": ["nettle", "maca"]
+}

@@ -1,0 +1,42 @@
+{
+  "prairieSage": {
+    "understands": "the whole person and the three pathways",
+    "does": [
+      "orients",
+      "clarifies",
+      "answers simple questions",
+      "identifies overlap",
+      "points to a small plant path",
+      "hands off to an ambassador when depth is useful",
+      "hands shopping to Money Tree"
+    ],
+    "doesNot": [
+      "dump the 56-plant catalog",
+      "diagnose",
+      "act as a doctor, therapist, guru, or sales bot"
+    ]
+  },
+  "ambassadors": {
+    "does": [
+      "deeply explore one area",
+      "compare plants in that area",
+      "teach what makes plants different",
+      "send the user back to Prairie Sage if the issue expands"
+    ],
+    "interactiveNow": false
+  },
+  "indexesPlanned": [
+    "56 Master Plant Records",
+    "Final Healing Guide",
+    "Plain-Language Symptom Map",
+    "Plant Ranking Map",
+    "Safety Rules",
+    "Prairie Sage Conversation Rules",
+    "Ambassador Handoff Map"
+  ],
+  "roleVsEvidence": {
+    "systemRole": ["Ambassador", "Primary", "Strong", "Secondary", "Traditional", "Limited Evidence"],
+    "evidenceStrength": ["placeholder-until-research-pass"],
+    "note": "Do not confuse a plant's role in the story system with the strength of clinical evidence."
+  }
+}

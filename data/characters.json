@@ -1,0 +1,115 @@
+[
+  {
+    "slug": "prairie-sage",
+    "name": "Prairie Sage",
+    "role": "Guide / Navigation",
+    "talking": true,
+    "status": "created",
+    "image": "/assets/characters/prairie-sage/portrait.png",
+    "fallbackImage": "/characters/prairie-sage.png",
+    "personality": "Calm, grounded, observant, warm but not hovering. Quietly authoritative."
+  },
+  {
+    "slug": "money-tree",
+    "name": "Money Tree",
+    "role": "Marketplace / Store",
+    "talking": true,
+    "status": "placeholder-art",
+    "image": "/assets/characters/money-tree/portrait.svg",
+    "fallbackImage": "/characters/money-tree.svg",
+    "personality": "Clever, energetic, commercially savvy, slightly cheeky. Not a hard sell."
+  },
+  {
+    "slug": "peppermint",
+    "name": "Peppermint",
+    "role": "Ambassador",
+    "concern": "digestion",
+    "region": "Europe",
+    "talking": false,
+    "status": "created-art-pending",
+    "image": "/assets/characters/peppermint/portrait.svg",
+    "note": "Social / PR personality. Visual presence now; chat later."
+  },
+  {
+    "slug": "passionflower",
+    "name": "Passionflower",
+    "role": "Ambassador",
+    "concern": "sleep",
+    "region": "Americas",
+    "talking": false,
+    "status": "created-art-pending",
+    "image": "/assets/characters/passionflower/portrait.svg"
+  },
+  {
+    "slug": "arnica",
+    "name": "Arnica",
+    "role": "Ambassador",
+    "concern": "pain",
+    "region": "Europe",
+    "talking": false,
+    "status": "created-art-pending",
+    "image": "/assets/characters/arnica/portrait.svg",
+    "note": "Possible Library Keeper later. Visual presence now."
+  },
+  {
+    "slug": "ginseng",
+    "name": "Ginseng",
+    "role": "Ambassador",
+    "concern": "energy",
+    "region": "East Asia",
+    "talking": false,
+    "status": "created-art-pending",
+    "image": "/assets/characters/ginseng/portrait.svg"
+  },
+  {
+    "slug": "milk-thistle",
+    "name": "Milk Thistle",
+    "role": "Ambassador",
+    "concern": "liver",
+    "region": "Mediterranean",
+    "talking": false,
+    "status": "created-art-pending",
+    "image": "/assets/characters/milk-thistle/portrait.svg"
+  },
+  {
+    "slug": "lavender",
+    "name": "Lavender",
+    "role": "Ambassador",
+    "concern": "stress",
+    "region": "Mediterranean",
+    "talking": false,
+    "status": "created-art-pending",
+    "image": "/assets/characters/lavender/portrait.svg"
+  },
+  {
+    "slug": "echinacea",
+    "name": "Echinacea",
+    "role": "Ambassador",
+    "concern": "immunity",
+    "region": "North America",
+    "talking": false,
+    "status": "not-yet-created",
+    "image": "/assets/characters/echinacea/portrait.svg"
+  },
+  {
+    "slug": "aloe",
+    "name": "Aloe",
+    "role": "Ambassador",
+    "concern": "skin",
+    "region": "Africa",
+    "talking": false,
+    "status": "not-yet-created",
+    "image": "/assets/characters/aloe/portrait.svg"
+  },
+  {
+    "slug": "black-cohosh",
+    "name": "Black Cohosh",
+    "role": "Ambassador",
+    "concern": "womens-care",
+    "region": "North America",
+    "talking": false,
+    "status": "not-yet-created",
+    "image": "/assets/characters/black-cohosh/portrait.svg",
+    "note": "TBD — may be replaced."
+  }
+]

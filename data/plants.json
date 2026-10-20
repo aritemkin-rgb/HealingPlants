@@ -1,0 +1,19 @@
+{
+  "status": "PLACEHOLDER prototype shelf — not the 56 master records",
+  "source": "lib/plants.ts",
+  "plannedMasterRecords": 56,
+  "records": [
+    { "slug": "peppermint", "name": "Peppermint", "concerns": ["digestion"], "ambassador": true, "geography": "Europe", "systemRole": "Ambassador" },
+    { "slug": "passionflower", "name": "Passionflower", "concerns": ["sleep", "stress"], "ambassador": true, "geography": "Americas", "systemRole": "Ambassador" },
+    { "slug": "arnica", "name": "Arnica", "concerns": ["pain"], "ambassador": true, "geography": "Europe", "systemRole": "Ambassador" },
+    { "slug": "ginseng", "name": "Ginseng", "concerns": ["energy"], "ambassador": true, "geography": "East Asia", "systemRole": "Ambassador" },
+    { "slug": "milk-thistle", "name": "Milk Thistle", "concerns": ["liver", "digestion"], "ambassador": true, "geography": "Mediterranean", "systemRole": "Ambassador" },
+    { "slug": "lavender", "name": "Lavender", "concerns": ["stress", "sleep"], "ambassador": true, "geography": "Mediterranean", "systemRole": "Ambassador" },
+    { "slug": "echinacea", "name": "Echinacea", "concerns": ["immunity"], "ambassador": false, "geography": "North America", "systemRole": "Primary" },
+    { "slug": "aloe", "name": "Aloe", "concerns": ["skin"], "ambassador": false, "geography": "Africa", "systemRole": "Primary" },
+    { "slug": "black-cohosh", "name": "Black Cohosh", "concerns": ["womens-care"], "ambassador": false, "geography": "North America", "systemRole": "Primary" },
+    { "slug": "chamomile", "name": "Chamomile", "concerns": ["sleep", "digestion", "stress"], "ambassador": false, "geography": "Europe", "systemRole": "Secondary" },
+    { "slug": "ginger", "name": "Ginger", "concerns": ["digestion"], "ambassador": false, "geography": "Asia", "systemRole": "Secondary" },
+    { "slug": "clove", "name": "Clove", "concerns": ["pain"], "ambassador": false, "geography": "Asia", "systemRole": "Secondary" }
+  ]
+}

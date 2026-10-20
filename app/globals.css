@@ -1,0 +1,280 @@
+@import "tailwindcss";
+
+:root {
+  --soil: #1a1613;
+  --soil-brown: #80481e;
+  --leaf: #a7c067;
+  --guide-purple: #583996;
+  --accent-orange: #f6871f;
+  --accent-pink: #e698c2;
+  --gold: #fad607;
+  --root-gold: #fad607;
+  --parchment: #f3ebdd;
+  --panel: #ffffff;
+  --paper: #ffffff;
+  --ink: #5c5c5c;
+  --ink-soft: #8a8a8a;
+  --moss: #a7c067;
+  --turquoise: #3d8b82;
+  --terracotta: #f6871f;
+  --background: #ffffff;
+  --foreground: var(--ink);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-acumin);
+  --font-display: var(--font-acumin);
+  --font-condensed: var(--font-acumin);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--foreground);
+  font-family: var(--font-acumin), sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-acumin), sans-serif;
+  font-weight: 700;
+}
+
+.font-condensed {
+  font-family: var(--font-acumin), sans-serif;
+  font-weight: 600;
+  font-stretch: condensed;
+}
+
+.dirt-title {
+  font-family: var(--font-acumin), sans-serif;
+  font-weight: 700;
+  font-size: 2.35rem;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--gold);
+}
+
+.dirt-copy {
+  margin-top: 0.75rem;
+  max-width: 13.25rem;
+  font-family: var(--font-acumin), sans-serif;
+  font-weight: 300;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--gold);
+}
+
+.archive-sky-dissolve {
+  pointer-events: none;
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  z-index: 2;
+  height: 2.75rem;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    rgba(255, 255, 255, 0.4) 38%,
+    transparent 100%
+  );
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.library-ground {
+  background-color: var(--soil);
+  background-image:
+    linear-gradient(180deg, rgba(26, 22, 19, 0.35), rgba(26, 22, 19, 0.72)),
+    url("/assets/dirt/dirt.png");
+  background-size: cover;
+  background-position: center top;
+  color: var(--parchment);
+}
+
+.guide-dirt {
+  background-color: var(--soil);
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent 14%),
+    url("/assets/dirt/dirt.png");
+  background-size: cover;
+  background-position: center top;
+  color: var(--parchment);
+}
+
+.archive-torn {
+  clip-path: polygon(
+    1.5% 7%,
+    7% 1.5%,
+    16% 5%,
+    24% 0%,
+    36% 4.5%,
+    49% 0.5%,
+    62% 4%,
+    74% 0%,
+    86% 5%,
+    96% 1%,
+    100% 9%,
+    98% 22%,
+    100% 36%,
+    97% 51%,
+    100% 66%,
+    96% 80%,
+    100% 93%,
+    91% 100%,
+    76% 97%,
+    61% 100%,
+    47% 96.5%,
+    32% 100%,
+    16% 97%,
+    3% 100%,
+    0% 88%,
+    3% 73%,
+    0% 58%,
+    3.5% 42%,
+    0% 26%,
+    2% 14%
+  );
+}
+
+.dirt-mask {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 18%,
+    rgba(0, 0, 0, 0.12) 40%,
+    rgba(0, 0, 0, 0.45) 62%,
+    #000 88%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 18%,
+    rgba(0, 0, 0, 0.12) 40%,
+    rgba(0, 0, 0, 0.45) 62%,
+    #000 88%
+  );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.footer-dirt-mask {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.15) 28%,
+    #000 58%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.15) 28%,
+    #000 58%
+  );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+@keyframes guide-pulse {
+  0%,
+  100% {
+    box-shadow: 0 12px 30px rgba(16, 12, 8, 0.28), 0 0 0 0 rgba(197, 165, 114, 0.35);
+  }
+  70% {
+    box-shadow: 0 12px 30px rgba(16, 12, 8, 0.28), 0 0 0 12px rgba(197, 165, 114, 0);
+  }
+}
+
+.prairie-sage-call video,
+.prairie-sage-call canvas,
+.prairie-sage-call iframe {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+@keyframes welcome-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(36px) scale(0.96);
+  }
+  22% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  78% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px) scale(1.02);
+  }
+}
+
+@keyframes welcome-soil {
+  0% {
+    transform: translateY(40%);
+  }
+  28% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes welcome-veil {
+  0% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.welcome-veil {
+  animation: welcome-veil 3.1s ease forwards;
+}
+
+.welcome-rise {
+  animation: welcome-rise 3.1s ease forwards;
+}
+
+.welcome-soil {
+  animation: welcome-soil 3.1s ease forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-bubble-pulse,
+  .welcome-veil,
+  .welcome-rise,
+  .welcome-soil {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}

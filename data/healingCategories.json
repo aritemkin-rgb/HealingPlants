@@ -1,0 +1,106 @@
+[
+  {
+    "id": "sleep",
+    "label": "Sleep",
+    "prompt": "I need help winding down at night.",
+    "ambassadorSlug": "passionflower",
+    "issues": [
+      { "id": "cant-fall-asleep", "label": "Can't fall asleep" },
+      { "id": "light-sleep", "label": "Light sleep" },
+      { "id": "restless", "label": "Restless" },
+      { "id": "wake-up-tired", "label": "Wake up tired" }
+    ]
+  },
+  {
+    "id": "stress",
+    "label": "Stress + Mood",
+    "prompt": "I am carrying a lot of stress.",
+    "ambassadorSlug": "lavender",
+    "issues": [
+      { "id": "wired", "label": "Tired but wired" },
+      { "id": "tense", "label": "Tense body" },
+      { "id": "looping", "label": "Thoughts looping" },
+      { "id": "overwhelmed", "label": "Overwhelmed" }
+    ]
+  },
+  {
+    "id": "digestion",
+    "label": "Digestive",
+    "prompt": "I want plants that support digestion.",
+    "ambassadorSlug": "peppermint",
+    "issues": [
+      { "id": "bloated", "label": "Bloated" },
+      { "id": "heaviness", "label": "Heaviness" },
+      { "id": "nausea", "label": "Nausea" },
+      { "id": "upset-stomach", "label": "Upset stomach" }
+    ]
+  },
+  {
+    "id": "pain",
+    "label": "Pain + Recovery",
+    "prompt": "I am looking for plants used for pain and recovery.",
+    "ambassadorSlug": "arnica",
+    "issues": [
+      { "id": "bruise", "label": "Bruise / impact" },
+      { "id": "sore-muscle", "label": "Sore muscle" },
+      { "id": "after-training", "label": "After training" },
+      { "id": "stiff", "label": "Stiff joints" }
+    ]
+  },
+  {
+    "id": "energy",
+    "label": "Energy + Focus",
+    "prompt": "I need more steady energy.",
+    "ambassadorSlug": "ginseng",
+    "issues": [
+      { "id": "afternoon-dip", "label": "Afternoon dip" },
+      { "id": "foggy", "label": "Foggy" },
+      { "id": "depleted", "label": "Depleted" },
+      { "id": "unfocused", "label": "Unfocused" }
+    ]
+  },
+  {
+    "id": "liver",
+    "label": "Liver + Detox",
+    "prompt": "I want to learn about liver-supportive plants.",
+    "ambassadorSlug": "milk-thistle",
+    "issues": [
+      { "id": "after-indulgence", "label": "After indulgence" },
+      { "id": "sluggish", "label": "Sluggish digestion" },
+      { "id": "learning", "label": "Just learning" }
+    ]
+  },
+  {
+    "id": "immunity",
+    "label": "Immunity",
+    "prompt": "Which plants are used for immune support?",
+    "ambassadorSlug": "echinacea",
+    "issues": [
+      { "id": "season-change", "label": "Season change" },
+      { "id": "run-down", "label": "Run down" },
+      { "id": "prevention", "label": "Curious about prevention" }
+    ]
+  },
+  {
+    "id": "skin",
+    "label": "Skin + Repair",
+    "prompt": "I am looking for skin and repair plants.",
+    "ambassadorSlug": "aloe",
+    "issues": [
+      { "id": "dry", "label": "Dry / tight" },
+      { "id": "sun", "label": "After sun" },
+      { "id": "minor-irritation", "label": "Minor irritation" }
+    ]
+  },
+  {
+    "id": "womens-care",
+    "label": "Women’s Care",
+    "prompt": "I want plants traditionally used in women’s care.",
+    "ambassadorSlug": "maca",
+    "issues": [
+      { "id": "cycle", "label": "Cycle support" },
+      { "id": "transition", "label": "Life transition" },
+      { "id": "learning-womens", "label": "Just learning" }
+    ]
+  }
+]

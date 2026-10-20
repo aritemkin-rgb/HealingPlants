@@ -1,0 +1,6 @@
+{
+  "status": "Mock stall only. No Shopify. No checkout. Buy is disabled.",
+  "source": "lib/products.ts",
+  "note": "Future Shopify connection",
+  "kinds": ["product", "seeds", "growing", "future"]
+}
