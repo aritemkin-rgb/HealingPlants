@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isLocalRunwayOrigin } from "@/lib/runwayOrigins";
 
 const API = "https://api.dev.runwayml.com";
 const PUB_KEY =
@@ -26,12 +27,14 @@ function runwayHeaders(origin: string) {
   };
 }
 
-function failCode(status: number, text: string) {
+function failCode(status: number, text: string, origin: string) {
   const lower = text.toLowerCase();
   if (status === 403 || lower.includes("origin") || lower.includes("allow")) {
     return "origin";
   }
-  if (status === 401) return "key";
+  // Same public key works on localhost; 401 from the live domain means the
+  // origin is missing from the Runway Embed allow list.
+  if (status === 401) return isLocalRunwayOrigin(origin) ? "key" : "origin";
   if (status === 429) return "busy";
   return "connect";
 }
@@ -55,9 +58,10 @@ export async function POST(request: Request) {
   const createdText = await created.text();
 
   if (!created.ok) {
+    const error = failCode(created.status, createdText, origin);
     return NextResponse.json(
-      { error: failCode(created.status, createdText), origin },
-      { status: created.status === 403 ? 403 : 502 },
+      { error, origin },
+      { status: error === "origin" ? 403 : 502 },
     );
   }
 
@@ -74,7 +78,7 @@ export async function POST(request: Request) {
     const probeText = await probe.text();
     if (!probe.ok) {
       return NextResponse.json(
-        { error: failCode(probe.status, probeText), origin },
+        { error: failCode(probe.status, probeText, origin), origin },
         { status: 502 },
       );
     }

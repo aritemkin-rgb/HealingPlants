@@ -1,17 +1,27 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
-import { prairieSage } from "@/lib/characters";
-import { newMessageId } from "@/lib/chatBackend";
-import { sageClose, sageFull } from "@/lib/media";
-import type { ChatApiResponse, ChatMessage } from "@/lib/types";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  createLiveSageSession,
+  loadRunwayCallUI,
+  RUNWAY_EMBED_API,
+  type RunwayCallHandle,
+} from "@/lib/runwayEmbedClient";
+import { runwayOriginHelp } from "@/lib/runwayOrigins";
+import { sageFull } from "@/lib/media";
+
+type TalkStatus = "idle" | "connecting" | "live" | "error";
+
+const TALK_EVENT = "hpw:talk-sage";
+
+export function startPrairieSageTalk() {
+  window.dispatchEvent(new Event(TALK_EVENT));
+}
 
 export function PrairieSageGuide({
   open,
   onOpen,
   onClose,
-  plantSlug,
-  plantName,
 }: {
   open: boolean;
   onOpen: () => void;
@@ -19,153 +29,132 @@ export function PrairieSageGuide({
   plantSlug?: string;
   plantName?: string;
 }) {
-  const [input, setInput] = useState("");
-  const [isSending, setIsSending] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>(() => [
-    {
-      id: "starter",
-      role: "assistant",
-      content: prairieSage.greeting,
-      createdAt: new Date().toISOString(),
-    },
-  ]);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const logRef = useRef<HTMLDivElement>(null);
+  const mountRef = useRef<HTMLDivElement>(null);
+  const callRef = useRef<RunwayCallHandle | null>(null);
+  const [status, setStatus] = useState<TalkStatus>("idle");
+  const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (open) inputRef.current?.focus();
-  }, [open]);
+  const stopTalk = useCallback(() => {
+    callRef.current?.unmount();
+    callRef.current = null;
+    if (mountRef.current) mountRef.current.replaceChildren();
+    setStatus("idle");
+    setError("");
+    onClose();
+  }, [onClose]);
 
-  useEffect(() => {
-    logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
-  }, [messages, isSending]);
-
-  async function send(text: string) {
-    const trimmed = text.trim();
-    if (!trimmed || isSending) return;
-
-    const userMessage: ChatMessage = {
-      id: newMessageId(),
-      role: "user",
-      content: trimmed,
-      createdAt: new Date().toISOString(),
-    };
-    const next = [...messages, userMessage];
-    setMessages(next);
-    setInput("");
-    setIsSending(true);
+  const startTalk = useCallback(async () => {
+    if (status === "connecting" || status === "live") return;
+    setError("");
+    setStatus("connecting");
+    onOpen();
+    mountRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
 
     try {
-      const response = await fetch("/api/prairie-chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: next.map(({ role, content }) => ({ role, content })),
-          mode: "prairie",
-          context: "healingGuide",
-          plantSlug,
-          plantName,
-        }),
-      });
-      const data = (await response.json()) as ChatApiResponse;
-      setMessages((current) => [...current, data.message]);
-    } catch {
-      setMessages((current) => [
-        ...current,
-        {
-          id: newMessageId(),
-          role: "assistant",
-          content:
-            "Sage is quiet for a moment. The path on the page still works — this live talk comes later.",
-          createdAt: new Date().toISOString(),
+      const live = await createLiveSageSession();
+      const frame = mountRef.current;
+      if (!frame) throw new Error("connect");
+      const mountCallUI = await loadRunwayCallUI();
+      frame.replaceChildren();
+      callRef.current = mountCallUI(frame, {
+        avatarId: live.avatarId,
+        sessionId: live.sessionId,
+        sessionKey: live.sessionKey,
+        baseUrl: RUNWAY_EMBED_API,
+        callShape: "full",
+        maxDurationSeconds: 120,
+        onEnd: () => {
+          callRef.current = null;
+          setStatus("idle");
+          onClose();
         },
-      ]);
-    } finally {
-      setIsSending(false);
+        onError: () => {
+          callRef.current = null;
+          setStatus("error");
+          setError("Sage dropped the line. Try again in a moment.");
+        },
+      });
+      setStatus("live");
+    } catch (cause) {
+      const pageOrigin =
+        cause instanceof Error && typeof cause.cause === "string"
+          ? cause.cause
+          : window.location.origin;
+      const reason = cause instanceof Error ? cause.message : "connect";
+      setStatus("error");
+      setError(
+        reason === "origin"
+          ? runwayOriginHelp(pageOrigin)
+          : "Sage could not start the live call. Allow the microphone, then try Talk with Healing Guide again.",
+      );
     }
-  }
+  }, [onClose, onOpen, status]);
 
-  function handleSubmit(event: FormEvent) {
-    event.preventDefault();
-    void send(input);
-  }
+  useEffect(() => {
+    if (!open) return;
+    if (status === "idle") void startTalk();
+  }, [open, startTalk, status]);
 
-  if (!open) {
-    return (
-      <aside id="sage-talk" className="relative mx-auto w-full self-start lg:mx-0">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={sageFull}
-          alt="Prairie Sage, guide of Healing Plants of the World"
-          className="mx-auto block h-[32rem] w-auto max-w-full object-contain object-top"
-        />
-        <button
-          type="button"
-          onClick={onOpen}
-          className="absolute bottom-[4%] left-1/2 w-[12.5rem] -translate-x-1/2 rounded-full bg-[var(--gold)] px-3 py-2 text-center font-condensed text-[0.68rem] uppercase tracking-[0.12em] text-[var(--soil-brown)] shadow-sm"
-        >
-          Talk with Healing Guide
-        </button>
-      </aside>
-    );
-  }
+  useEffect(() => {
+    function onTalk() {
+      void startTalk();
+    }
+    window.addEventListener(TALK_EVENT, onTalk);
+    return () => window.removeEventListener(TALK_EVENT, onTalk);
+  }, [startTalk]);
+
+  useEffect(() => {
+    return () => {
+      callRef.current?.unmount();
+    };
+  }, []);
 
   return (
-    <aside id="sage-talk" className="relative flex w-full flex-col self-start bg-white">
-      <button
-        type="button"
-        onClick={onClose}
-        className="self-start font-condensed text-[0.78rem] uppercase tracking-[0.16em] text-[var(--ink)]"
-      >
-        × Close chat
-      </button>
-      <div className="relative mt-2 flex h-[18rem] items-start justify-center overflow-hidden md:h-[22rem]">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={sageClose}
-          alt="Prairie Sage"
-          className="h-full w-auto max-w-full object-contain object-top"
+    <aside id="sage-talk" className="relative mx-auto w-full self-start lg:mx-0">
+      <div className="relative">
+        <div
+          ref={mountRef}
+          className="prairie-sage-call mx-auto h-[32rem] w-full max-w-full"
         />
-      </div>
-      <div className="flex min-h-0 flex-1 flex-col border-t border-[rgba(44,36,22,0.08)]">
-        <div ref={logRef} className="min-h-[7rem] max-h-48 space-y-2 overflow-y-auto px-1 py-3">
-          {messages.map((message) => (
-            <p
-              key={message.id}
-              className={
-                message.role === "user"
-                  ? "ml-6 rounded-2xl bg-[var(--ink)] px-3 py-2 text-sm font-light text-white"
-                  : "mr-4 text-sm font-light leading-relaxed text-[var(--ink)]"
-              }
-            >
-              {message.content}
-            </p>
-          ))}
-          {isSending ? (
-            <p className="text-sm italic text-[var(--ink-soft)]">Prairie Sage is listening…</p>
-          ) : null}
-        </div>
-        <form onSubmit={handleSubmit} className="flex gap-2 pb-2">
-          <label className="sr-only" htmlFor="prairie-sage-chat">
-            Message Prairie Sage
-          </label>
-          <input
-            ref={inputRef}
-            id="prairie-sage-chat"
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask Prairie Sage…"
-            className="min-w-0 flex-1 rounded-full border border-[rgba(44,36,22,0.14)] px-3 py-2 text-sm outline-none"
-          />
+        {status !== "live" ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={sageFull}
+              alt="Prairie Sage, guide of Healing Plants of the World"
+              className="pointer-events-none absolute inset-0 mx-auto h-[32rem] w-auto max-w-full object-contain object-top"
+            />
+            <div className="absolute bottom-[4%] left-1/2 flex w-[12.5rem] -translate-x-1/2 flex-col items-center gap-2">
+              {status === "connecting" ? (
+                <p className="rounded-full bg-[var(--gold)] px-3 py-2 text-center font-condensed text-[0.68rem] uppercase tracking-[0.12em] text-[var(--soil-brown)] shadow-sm">
+                  Sage is waking…
+                </p>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => void startTalk()}
+                  className="w-full rounded-full bg-[var(--gold)] px-3 py-2 text-center font-condensed text-[0.68rem] uppercase tracking-[0.12em] text-[var(--soil-brown)] shadow-sm"
+                >
+                  Talk with Healing Guide
+                </button>
+              )}
+            </div>
+          </>
+        ) : (
           <button
-            type="submit"
-            disabled={isSending || !input.trim()}
-            className="rounded-full bg-[var(--gold)] px-3 py-2 font-condensed text-[0.68rem] uppercase tracking-[0.12em] text-[var(--soil-brown)] disabled:opacity-40"
+            type="button"
+            onClick={stopTalk}
+            className="absolute top-3 right-3 z-10 rounded-full bg-[rgba(16,12,8,0.7)] px-3 py-1.5 font-condensed text-[0.65rem] uppercase tracking-[0.14em] text-white"
           >
-            Send
+            End
           </button>
-        </form>
+        )}
       </div>
+      {status === "error" ? (
+        <p className="mt-3 max-w-sm whitespace-pre-line text-sm font-light leading-relaxed text-[var(--ink)]">
+          {error}
+        </p>
+      ) : null}
     </aside>
   );
 }
