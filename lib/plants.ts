@@ -342,3 +342,6 @@ export function searchPlants(query: string) {
 }
 
 export const geographies = [...new Set(plants.map((plant) => plant.geography))].sort();
+export const regions = [...new Set(plants.map((plant) => plant.region))].sort((a, b) =>
+  a.localeCompare(b, "en", { sensitivity: "base" }),
+);

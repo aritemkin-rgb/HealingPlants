@@ -5,10 +5,9 @@ import { usePathname } from "next/navigation";
 import { attachHoldLastFrame, markIntroDone } from "@/lib/holdLastFrame";
 import {
   loadingVideos,
-  moneyTreeFull,
-  moneyTreeHomeVideo,
-  sageFull,
-  sageHomeVideo,
+  oliveTreeFull,
+  oliveTreeHomeVideo,
+  sageLoadingVideo,
 } from "@/lib/media";
 
 const figures = [
@@ -17,34 +16,39 @@ const figures = [
     poster: "/assets/loading/orchid.png",
     aspect: "640 / 640",
     stacked: true,
+    loop: false,
     holdPad: 0.12,
   },
   {
-    src: sageHomeVideo,
-    poster: sageFull,
+    src: sageLoadingVideo,
+    poster: "/assets/loading/prairie-sage.png",
     aspect: "540 / 720",
     stacked: false,
-    holdPad: 0.12,
+    loop: true,
+    holdPad: 0,
   },
   {
     src: loadingVideos.passionflower,
     poster: "/assets/loading/passionflower.png",
     aspect: "1288 / 712",
     stacked: true,
+    loop: false,
     holdPad: 0.12,
   },
   {
-    src: moneyTreeHomeVideo,
-    poster: moneyTreeFull,
+    src: oliveTreeHomeVideo,
+    poster: oliveTreeFull,
     aspect: "540 / 720",
     stacked: false,
-    holdPad: 0.85,
+    loop: true,
+    holdPad: 0,
   },
   {
     src: loadingVideos.ginseng,
     poster: "/assets/loading/ginseng.png",
     aspect: "624 / 624",
     stacked: true,
+    loop: false,
     holdPad: 0.12,
   },
 ] as const;
@@ -67,6 +71,7 @@ function LoadingFigure({
   poster,
   aspect,
   stacked,
+  loop,
   holdPad,
 }: (typeof figures)[number]) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -75,10 +80,14 @@ function LoadingFigure({
   useLayoutEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    if (loop) {
+      video.loop = true;
+      return;
+    }
     const hold = attachHoldLastFrame(video, holdPad);
     hold.arm();
     return () => hold.detach();
-  }, [holdPad, src]);
+  }, [holdPad, loop, src]);
 
   return (
     <div
@@ -100,6 +109,7 @@ function LoadingFigure({
         autoPlay
         muted
         playsInline
+        loop={loop}
         preload="auto"
         onLoadedData={() => setReady(true)}
         className={`absolute bottom-0 left-0 w-full max-w-none bg-white object-cover object-bottom transition-opacity duration-200 ${

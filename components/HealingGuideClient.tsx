@@ -124,9 +124,8 @@ function PlantWindow({
         <p className="font-condensed text-[0.78rem] font-medium uppercase tracking-[0.18em] text-[var(--guide-purple)]">
           Highest on this path
         </p>
-        <p className="mt-6 font-display text-2xl text-[var(--ink)]">The plant lands here.</p>
-        <p className="mt-2 max-w-xs text-sm font-light leading-relaxed text-[var(--ink-soft)]">
-          Tap a concern and the first plant appears in place.
+        <p className="mt-3 max-w-xs text-sm font-light leading-relaxed text-[var(--ink-soft)]">
+          Choose a concern and the first plant appears here.
         </p>
       </aside>
     );
@@ -144,7 +143,7 @@ function PlantWindow({
         <PlantPortrait
           slug={plant.slug}
           name={plant.name}
-          className="h-48 w-48 shrink-0 md:h-56 md:w-56"
+          className="h-32 w-32 shrink-0 md:h-40 md:w-40"
         />
       </div>
 
@@ -168,7 +167,7 @@ function PlantWindow({
             );
           })}
         </nav>
-        <div className="min-h-[12rem]">{tabCopy(plant, tab)}</div>
+        <div>{tabCopy(plant, tab)}</div>
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
@@ -288,150 +287,132 @@ export function HealingGuideClient() {
   }
 
   return (
-    <>
-      <div className="mx-auto max-w-6xl px-5 py-8 md:px-8 [overflow-anchor:none]">
-        <section className="mb-6 bg-white">
-          <h1 className="font-display text-4xl text-[var(--ink)] md:text-[2.75rem]">
-            Choose how you feel
-          </h1>
-          <p className="mt-1 text-base font-light text-[var(--ink-soft)]">
-            One concern or several. The first plant stays in the window.
-          </p>
-        </section>
+    <section className="mx-auto max-w-6xl px-5 py-8 md:px-8 [overflow-anchor:none]">
+      <h1 className="font-display text-4xl text-[var(--ink)] md:text-[2.75rem]">
+        Choose how you feel
+      </h1>
+      <p className="mt-1 text-base font-light text-[var(--ink-soft)]">
+        One concern or several. The plant and the rest of the path stay in this
+        section.
+      </p>
 
-        <section className="grid items-start gap-x-10 gap-y-4 bg-white lg:grid-cols-[minmax(0,0.92fr)_minmax(26rem,1.2fr)]">
-          <div>
-            <div className="mb-3 flex flex-wrap items-start gap-2">
-              <div className="min-w-0 flex-1">
-                <CategorySelector
-                  selected={concerns}
-                  selectedIssues={issues}
-                  onToggleConcern={toggleConcern}
-                  onToggleIssue={toggleIssue}
-                  compact
-                />
-              </div>
-              <button
-                type="button"
-                onClick={() => write({ concerns: [], issues: [], intensity: 3 })}
-                className={`shrink-0 rounded-full border border-[rgba(44,36,22,0.16)] px-3 py-1.5 font-condensed text-[0.68rem] uppercase tracking-[0.12em] ${
-                  concerns.length === 0 ? "invisible" : ""
-                }`}
-              >
-                Clear
-              </button>
-            </div>
-            <p className="mb-4 text-sm font-light text-[var(--ink-soft)]">
-              {concerns.length === 0
-                ? "Tap a concern. Sage is below if you want to talk."
-                : concerns.length > 1
-                  ? `You chose ${listLabels(selectedLabels)}. ${
-                      overlapCount
-                        ? "Overlap comes first on the path."
-                        : "A small group for this mix."
-                    }`
-                  : `A small group for ${selectedLabels[0]}.`}
-            </p>
-
-            <div className="mt-4 rounded-2xl bg-[rgba(88,57,150,0.05)] p-3 md:p-4">
-              <div className="flex flex-col gap-4 md:flex-row md:items-start">
-                <div className="min-w-0 flex-1">
-                  {selectedCategories.length === 0 ? (
-                    <p className="text-sm font-light leading-relaxed text-[var(--ink-soft)]">
-                      Restless sleep, bloating, sore muscle — chips wait here.
-                    </p>
-                  ) : (
-                    <div className="space-y-3">
-                      {selectedCategories.map((category) => (
-                        <div key={category.id}>
-                          <p className="mb-1.5 font-condensed text-[0.68rem] uppercase tracking-[0.14em] text-[var(--guide-purple)]">
-                            {category.label}
-                          </p>
-                          <div className="flex flex-wrap gap-1.5">
-                            {category.issues.map((issue) => {
-                              const on = issues.includes(issue.id);
-                              return (
-                                <button
-                                  key={issue.id}
-                                  type="button"
-                                  onClick={() => toggleIssue(issue.id)}
-                                  aria-pressed={on}
-                                  className={`rounded-full px-3 py-1.5 font-condensed text-[0.68rem] uppercase tracking-[0.12em] ${
-                                    on
-                                      ? "bg-[var(--guide-purple)] text-white"
-                                      : "border border-[rgba(88,57,150,0.22)] bg-white text-[var(--ink)]"
-                                  }`}
-                                >
-                                  {issue.label}
-                                </button>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <div className="w-full shrink-0 border-t border-[rgba(88,57,150,0.12)] pt-3 md:w-44 md:border-l md:border-t-0 md:pl-4 md:pt-0">
-                  <IssueSelector
-                    intensity={intensity}
-                    onChange={(value) => write({ concerns, issues, intensity: value })}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:row-span-2">
-            <PlantWindow topPlant={topPlant} onChat={openSage} />
-          </div>
-
-          <div>
-            <PrairieSageGuide
-              open={sageOpen}
-              onOpen={openSage}
-              onClose={closeSage}
-              plantSlug={topPlant?.plant.slug}
-              plantName={topPlant?.plant.name}
+      <div className="mt-5 grid items-start gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(24rem,1fr)]">
+        <div className="flex min-w-0 flex-col">
+          <div className="flex max-w-xl flex-wrap gap-2">
+            <CategorySelector
+              selected={concerns}
+              selectedIssues={issues}
+              onToggleConcern={toggleConcern}
+              onToggleIssue={toggleIssue}
+              compact
             />
-            <SafetyNote compact className="mt-4" />
+            <button
+              type="button"
+              onClick={() => write({ concerns: [], issues: [], intensity: 3 })}
+              className={`rounded-full border border-[rgba(44,36,22,0.16)] px-3 py-1.5 font-condensed text-[0.68rem] uppercase tracking-[0.12em] ${
+                concerns.length === 0 ? "invisible" : ""
+              }`}
+            >
+              Clear
+            </button>
           </div>
-        </section>
-      </div>
-
-      <section className="guide-dirt px-4 py-12 md:px-6">
-        <div className="mx-auto max-w-6xl">
-          <p className="inline-block rounded-sm bg-white px-3 py-1 font-display text-lg text-[var(--ink)]">
-            Also on this path
+          <p className="mt-3 text-sm font-light text-[var(--ink-soft)]">
+            {concerns.length === 0
+              ? "Tap a concern. Sage stays on the right if you want to talk."
+              : concerns.length > 1
+                ? `You chose ${listLabels(selectedLabels)}. ${
+                    overlapCount
+                      ? "Overlap comes first on the path."
+                      : "A small group for this mix."
+                  }`
+                : `A small group for ${selectedLabels[0]}.`}
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-6">
-            {morePlants.length === 0 ? (
-              <p className="max-w-sm text-sm font-light text-[rgba(243,235,221,0.8)]">
-                Choose a concern and the rest of the path gathers here.
+
+          <div className="mt-4 rounded-2xl bg-[rgba(88,57,150,0.05)] p-3 md:p-4">
+            {selectedCategories.length === 0 ? (
+              <p className="text-sm font-light leading-relaxed text-[var(--ink-soft)]">
+                Restless sleep, bloating, sore muscle — chips wait here.
               </p>
             ) : (
-              morePlants.map((item) => (
-                <Link
-                  key={item.plant.slug}
-                  href={`/library/${item.plant.slug}`}
-                  className="flex w-28 flex-col items-center text-center"
-                >
-                  <PlantPortrait
-                    slug={item.plant.slug}
-                    name={item.plant.name}
-                    size="thumb"
-                    className="h-24 w-24"
-                  />
-                  <span className="mt-2 text-sm text-[var(--gold)]">{item.plant.name}</span>
-                </Link>
-              ))
+              <div className="space-y-3">
+                {selectedCategories.map((category) => (
+                  <div key={category.id}>
+                    <p className="mb-1.5 font-condensed text-[0.68rem] uppercase tracking-[0.14em] text-[var(--guide-purple)]">
+                      {category.label}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {category.issues.map((issue) => {
+                        const on = issues.includes(issue.id);
+                        return (
+                          <button
+                            key={issue.id}
+                            type="button"
+                            onClick={() => toggleIssue(issue.id)}
+                            aria-pressed={on}
+                            className={`rounded-full px-3 py-1.5 font-condensed text-[0.68rem] uppercase tracking-[0.12em] ${
+                              on
+                                ? "bg-[var(--guide-purple)] text-white"
+                                : "border border-[rgba(88,57,150,0.22)] bg-white text-[var(--ink)]"
+                            }`}
+                          >
+                            {issue.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
             )}
+            <div className="mt-4 border-t border-[rgba(88,57,150,0.12)] pt-3">
+              <IssueSelector
+                intensity={intensity}
+                onChange={(value) => write({ concerns, issues, intensity: value })}
+              />
+            </div>
           </div>
-          <p className="mt-16 font-condensed text-[0.78rem] uppercase tracking-[0.16em] text-[var(--gold)]">
-            Subscribe
-          </p>
+
+          <PlantWindow topPlant={topPlant} onChat={openSage} />
+
+          {morePlants.length > 0 ? (
+            <div className="mt-6">
+              <p className="font-condensed text-[0.72rem] font-medium uppercase tracking-[0.18em] text-[var(--guide-purple)]">
+                Also on this path
+              </p>
+              <div className="mt-3 flex flex-wrap gap-5">
+                {morePlants.map((item) => (
+                  <Link
+                    key={item.plant.slug}
+                    href={`/library/${item.plant.slug}`}
+                    className="flex w-20 flex-col items-center text-center"
+                  >
+                    <PlantPortrait
+                      slug={item.plant.slug}
+                      name={item.plant.name}
+                      size="thumb"
+                      circle
+                      className="h-20 w-20"
+                    />
+                    <span className="mt-1.5 text-sm text-[var(--ink)]">
+                      {item.plant.name}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
-      </section>
-    </>
+
+        <PrairieSageGuide
+          open={sageOpen}
+          onOpen={openSage}
+          onClose={closeSage}
+          plantSlug={topPlant?.plant.slug}
+          plantName={topPlant?.plant.name}
+        />
+      </div>
+
+      <SafetyNote compact className="mt-8" />
+    </section>
   );
 }

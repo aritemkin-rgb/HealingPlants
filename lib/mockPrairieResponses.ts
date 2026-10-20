@@ -102,9 +102,9 @@ export function getPrairieReply(input: {
 
   if (isShoppingQuestion(text)) {
     return {
-      text: "That is Money Tree’s stall, not mine. I can point you there for products, seeds, growing tools, and the future shop path. I stay with plant guidance.",
+      text: "That is Olive Tree’s stall, not mine. I can point you there for products, seeds, growing tools, and the future shop path. I stay with plant guidance.",
       suggestions: [
-        { label: "Ask Money Tree", href: "/marketplace" },
+        { label: "Ask Olive Tree", href: "/marketplace" },
         { label: "Shop by plant", href: "/marketplace" },
       ],
     };

@@ -4,9 +4,13 @@ export const sageFull = "/assets/characters/full/prairie-sage.png";
 export const sageClose = "/assets/characters/close/prairie-sage.png";
 export const sageBubble = "/assets/characters/bubbles/prairie-sage.png";
 export const sageHomeVideo = "/assets/home/prairie-sage.mp4";
-export const moneyTreeFull = "/assets/characters/full/money-tree.png";
-export const moneyTreeBubble = "/assets/characters/bubbles/money-tree.png";
-export const moneyTreeHomeVideo = "/assets/home/money-tree.mp4";
+export const sageLoadingVideo = "/assets/loading/prairie-sage.mp4";
+export const oliveTreeFull = "/assets/characters/full/olive-tree.png";
+export const oliveTreeBubble = "/assets/characters/bubbles/olive-tree.png";
+export const oliveTreeHomeVideo = "/assets/home/olive-tree.mp4";
+export const moneyTreeFull = oliveTreeFull;
+export const moneyTreeBubble = oliveTreeBubble;
+export const moneyTreeHomeVideo = oliveTreeHomeVideo;
 export const dirtGround = "/assets/dirt/dirt.png";
 export const dirtLayer = "/assets/dirt/dirt-layer.jpg";
 export const dirtFooter = "/assets/dirt/dirt-footer.png";
@@ -14,10 +18,11 @@ export const logoDirt = "/assets/logo/logo-dirt.png";
 
 export const loadingVideos = {
   orchid: "/assets/loading/orchid.mp4",
-  prairieSage: "/assets/home/prairie-sage.mp4",
+  prairieSage: "/assets/loading/prairie-sage.mp4",
   passionflower: "/assets/loading/passionflower.mp4",
   ginseng: "/assets/loading/ginseng.mp4",
-  moneyTree: "/assets/home/money-tree.mp4",
+  oliveTree: "/assets/home/olive-tree.mp4",
+  moneyTree: "/assets/home/olive-tree.mp4",
 } as const;
 
 /** Healing-path ambassadors that have character art. */

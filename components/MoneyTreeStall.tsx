@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { moneyTree } from "@/lib/characters";
 import { newMessageId } from "@/lib/chatBackend";
-import { moneyTreeFull } from "@/lib/media";
+import { oliveTreeFull, oliveTreeHomeVideo } from "@/lib/media";
 import type { ChatApiResponse, ChatMessage } from "@/lib/types";
 
 export function MoneyTreeStall({ initialOpen = false }: { initialOpen?: boolean }) {
@@ -80,18 +80,22 @@ export function MoneyTreeStall({ initialOpen = false }: { initialOpen?: boolean 
   if (!open) {
     return (
       <aside className="relative mx-auto w-full max-w-[22rem]">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={moneyTreeFull}
-          alt="Money Tree, keeper of the stall"
-          className="mx-auto block h-[min(24rem,62vh)] w-auto max-w-full object-contain object-bottom"
+        <video
+          src={oliveTreeHomeVideo}
+          poster={oliveTreeFull}
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-label="Olive Tree, keeper of the stall"
+          className="mx-auto block h-[22rem] w-full bg-transparent object-contain object-bottom"
         />
         <button
           type="button"
           onClick={() => setOpen(true)}
           className="absolute bottom-[8%] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[var(--gold)] px-5 py-2.5 font-condensed text-[0.72rem] uppercase tracking-[0.14em] text-[var(--soil-brown)] shadow-sm"
         >
-          Talk with Money Tree
+          Buyer Guide
         </button>
       </aside>
     );
@@ -107,11 +111,15 @@ export function MoneyTreeStall({ initialOpen = false }: { initialOpen?: boolean 
         × Close chat
       </button>
       <div className="relative mt-8 h-[20rem] overflow-hidden sm:h-[22rem]">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={moneyTreeFull}
-          alt="Money Tree"
-          className="absolute left-1/2 top-[-4%] h-[220%] w-auto max-w-none -translate-x-1/2"
+        <video
+          src={oliveTreeHomeVideo}
+          poster={oliveTreeFull}
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-label="Olive Tree"
+          className="absolute left-1/2 top-[-4%] h-[220%] w-auto max-w-none -translate-x-1/2 bg-transparent object-contain object-bottom"
         />
       </div>
       <div className="flex min-h-0 flex-1 flex-col border-t border-[rgba(44,36,22,0.08)]">
@@ -129,12 +137,12 @@ export function MoneyTreeStall({ initialOpen = false }: { initialOpen?: boolean 
             </p>
           ))}
           {isSending ? (
-            <p className="text-sm italic text-[var(--ink-soft)]">Money Tree is thinking…</p>
+            <p className="text-sm italic text-[var(--ink-soft)]">Olive Tree is thinking…</p>
           ) : null}
         </div>
         <form onSubmit={handleSubmit} className="flex gap-2 pb-2">
           <label className="sr-only" htmlFor="money-tree-chat">
-            Message Money Tree
+            Message Olive Tree
           </label>
           <input
             ref={inputRef}

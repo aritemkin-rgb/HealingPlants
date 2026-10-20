@@ -17,7 +17,7 @@ export function CategorySelector({
 }) {
   if (compact) {
     return (
-      <div className="flex flex-wrap gap-2">
+      <>
         {healingCategories.map((item) => {
           const active = selected.includes(item.id);
           return (
@@ -26,7 +26,7 @@ export function CategorySelector({
               type="button"
               onClick={() => onToggleConcern(item.id)}
               aria-pressed={active}
-              className={`rounded-full px-3 py-1.5 font-condensed text-[0.72rem] uppercase tracking-[0.12em] ${
+              className={`whitespace-nowrap rounded-full px-3 py-1.5 font-condensed text-[0.72rem] uppercase tracking-[0.12em] ${
                 active
                   ? "bg-[var(--ink)] text-white"
                   : "border border-[rgba(44,36,22,0.14)] bg-white text-[var(--ink)] hover:border-[var(--ink)]"
@@ -36,7 +36,7 @@ export function CategorySelector({
             </button>
           );
         })}
-      </div>
+      </>
     );
   }
 

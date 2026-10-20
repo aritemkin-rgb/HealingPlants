@@ -112,8 +112,8 @@ export function MarketplaceClient() {
           </h1>
           <p className="mt-1 text-base font-light text-[var(--ink-soft)]">
             {showSections
-              ? "The plant portraits are the shop. Open a stall, or talk with Money Tree."
-              : "Browse the mock shop. Talk with Money Tree if you want a nudge."}
+              ? "The plant portraits are the shop. Open a stall, or talk with Olive Tree."
+              : "Browse the mock shop. Talk with Olive Tree if you want a nudge."}
           </p>
 
           <div className="mt-6 flex flex-wrap gap-2">
@@ -232,7 +232,7 @@ export function MarketplaceClient() {
           <SafetyNote className="mt-8" />
         </div>
 
-        <div className="lg:sticky lg:top-20">
+        <div className="max-lg:mt-10 lg:fixed lg:bottom-4 lg:right-8 lg:z-20 lg:w-[22rem]">
           <MoneyTreeStall initialOpen={talkOpen} />
         </div>
       </div>

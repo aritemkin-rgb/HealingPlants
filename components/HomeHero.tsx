@@ -3,13 +3,12 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
-  attachHoldLastFrame,
   INTRO_DONE_EVENT,
   introAlreadyDone,
 } from "@/lib/holdLastFrame";
 import {
-  moneyTreeFull,
-  moneyTreeHomeVideo,
+  oliveTreeFull,
+  oliveTreeHomeVideo,
   sageFull,
   sageHomeVideo,
 } from "@/lib/media";
@@ -20,16 +19,16 @@ function HomeFigure({
   alt,
   href,
   label,
-  holdPad,
   play,
+  zoom = 1,
 }: {
   video: string;
   poster: string;
   alt: string;
   href: string;
   label: string;
-  holdPad: number;
   play: boolean;
+  zoom?: number;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [live, setLive] = useState(false);
@@ -37,21 +36,18 @@ function HomeFigure({
   useEffect(() => {
     const clip = ref.current;
     if (!clip) return;
-    const hold = attachHoldLastFrame(clip, holdPad);
 
     if (!play) {
-      hold.disarm();
       clip.pause();
       setLive(false);
-      return () => hold.detach();
+      return;
     }
 
     let cancelled = false;
-    hold.disarm();
+    clip.loop = true;
 
     const begin = () => {
       if (cancelled) return;
-      hold.arm();
       clip.play().then(() => {
         if (!cancelled) setLive(true);
       }).catch(() => {});
@@ -83,9 +79,8 @@ function HomeFigure({
     start();
     return () => {
       cancelled = true;
-      hold.detach();
     };
-  }, [holdPad, play, video]);
+  }, [play, video]);
 
   return (
     <figure className="relative">
@@ -100,10 +95,12 @@ function HomeFigure({
           className={`absolute inset-0 h-full w-full object-contain object-bottom transition-opacity duration-300 ${
             live ? "opacity-0" : "opacity-100"
           }`}
+          style={{ transform: `scale(${zoom})`, transformOrigin: "center bottom" }}
         />
         <video
           ref={ref}
           muted
+          loop
           playsInline
           preload="auto"
           poster={poster}
@@ -111,13 +108,14 @@ function HomeFigure({
           className={`absolute inset-0 h-full w-full bg-transparent object-contain object-bottom transition-opacity duration-300 ${
             live ? "opacity-100" : "opacity-0"
           }`}
+          style={{ transform: `scale(${zoom})`, transformOrigin: "center bottom" }}
         >
           <source src={video} type="video/mp4" />
         </video>
       </div>
       <Link
         href={href}
-        className="absolute bottom-[7%] left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-[var(--gold)] px-4 py-2 font-condensed text-[0.72rem] uppercase tracking-[0.14em] text-[var(--soil-brown)] shadow-sm"
+        className="absolute bottom-[7%] left-1/2 z-10 w-[12.75rem] -translate-x-1/2 whitespace-nowrap rounded-full bg-[var(--gold)] px-4 py-2 text-center font-condensed text-[0.68rem] uppercase tracking-[0.12em] text-[var(--soil-brown)] shadow-sm"
       >
         {label}
       </Link>
@@ -139,7 +137,7 @@ export function HomeHero() {
   }, []);
 
   return (
-    <section className="relative bg-white text-[var(--ink)]">
+    <section className="relative border-b border-black bg-white text-[var(--ink)]">
       <div className="relative mx-auto grid max-w-6xl items-end gap-2 px-5 pt-4 md:grid-cols-[minmax(0,1.1fr)_minmax(18rem,1.05fr)_minmax(0,1.1fr)] md:gap-3 md:px-6 md:pt-6">
         <div className="order-2 md:order-1">
           <HomeFigure
@@ -147,8 +145,7 @@ export function HomeHero() {
             poster={sageFull}
             alt=""
             href="/healing-guide?talk=1#sage-talk"
-            label="Talk with Prairie Sage"
-            holdPad={0.28}
+            label="Talk with Healing Guide"
             play={play}
           />
         </div>
@@ -170,13 +167,13 @@ export function HomeHero() {
 
         <div className="order-3">
           <HomeFigure
-            video={moneyTreeHomeVideo}
-            poster={moneyTreeFull}
+            video={oliveTreeHomeVideo}
+            poster={oliveTreeFull}
             alt=""
             href="/marketplace?talk=1"
-            label="Talk with Money Tree"
-            holdPad={0.85}
+            label="Buyer Guide"
             play={play}
+            zoom={1.16}
           />
         </div>
       </div>

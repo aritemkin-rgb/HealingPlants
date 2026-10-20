@@ -11,12 +11,12 @@
   },
   {
     "slug": "money-tree",
-    "name": "Money Tree",
+    "name": "Olive Tree",
     "role": "Marketplace / Store",
     "talking": true,
     "status": "created",
-    "image": "/assets/characters/bubbles/money-tree.png",
-    "fallbackImage": "/assets/characters/bubbles/money-tree.png",
+    "image": "/assets/characters/bubbles/olive-tree.png",
+    "fallbackImage": "/assets/characters/bubbles/olive-tree.png",
     "personality": "Clever, energetic, commercially savvy, slightly cheeky. Not a hard sell."
   },
   {

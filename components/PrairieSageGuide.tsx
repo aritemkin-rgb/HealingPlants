@@ -92,26 +92,26 @@ export function PrairieSageGuide({
 
   if (!open) {
     return (
-      <aside id="sage-talk" className="relative mx-auto mt-6 w-full max-w-[18rem] lg:mx-0">
+      <aside id="sage-talk" className="relative mx-auto w-full self-start lg:mx-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={sageFull}
           alt="Prairie Sage, guide of Healing Plants of the World"
-          className="mx-auto block h-[22rem] w-auto max-w-full object-contain object-bottom lg:h-[26rem]"
+          className="mx-auto block h-[32rem] w-auto max-w-full object-contain object-top"
         />
         <button
           type="button"
           onClick={onOpen}
-          className="absolute bottom-[7%] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[var(--gold)] px-5 py-2.5 font-condensed text-[0.72rem] uppercase tracking-[0.14em] text-[var(--soil-brown)] shadow-sm"
+          className="absolute bottom-[4%] left-1/2 w-[12.5rem] -translate-x-1/2 rounded-full bg-[var(--gold)] px-3 py-2 text-center font-condensed text-[0.68rem] uppercase tracking-[0.12em] text-[var(--soil-brown)] shadow-sm"
         >
-          Talk with Prairie Sage
+          Talk with Healing Guide
         </button>
       </aside>
     );
   }
 
   return (
-    <aside id="sage-talk" className="relative mt-4 flex flex-col bg-white">
+    <aside id="sage-talk" className="relative flex w-full flex-col self-start bg-white">
       <button
         type="button"
         onClick={onClose}
@@ -119,12 +119,12 @@ export function PrairieSageGuide({
       >
         × Close chat
       </button>
-      <div className="relative mt-2 h-[20rem] overflow-hidden sm:h-[24rem]">
+      <div className="relative mt-2 flex h-[18rem] items-start justify-center overflow-hidden md:h-[22rem]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={sageClose}
           alt="Prairie Sage"
-          className="absolute left-1/2 top-0 h-full w-auto max-w-none -translate-x-1/2 object-cover object-top"
+          className="h-full w-auto max-w-full object-contain object-top"
         />
       </div>
       <div className="flex min-h-0 flex-1 flex-col border-t border-[rgba(44,36,22,0.08)]">

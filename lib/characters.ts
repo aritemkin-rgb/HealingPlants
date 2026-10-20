@@ -22,13 +22,13 @@ export const prairieSage: CharacterProfile = {
 
 export const moneyTree: CharacterProfile = {
   mode: "moneyTree",
-  name: "Money Tree",
+  name: "Olive Tree",
   role: "Marketplace / Store",
-  image: "/assets/characters/bubbles/money-tree.png",
+  image: "/assets/characters/bubbles/olive-tree.png",
   description:
     "Clever, optimistic, and commercially fluent without the hard sell. He curates seeds, tools, mock products, and future Shopify paths.",
   greeting:
-    "Welcome to the Marketplace. I’m Money Tree. I can help you explore products, seeds, growing tools, and future shop options. Are you looking for something to use, grow, gift, or learn more about?",
+    "Welcome to the Marketplace. I’m Olive Tree. I can help you explore products, seeds, growing tools, and future shop options. Are you looking for something to use, grow, gift, or learn more about?",
 };
 
 export const characters: Record<ChatMode, CharacterProfile> = {
@@ -140,7 +140,7 @@ export function plantProfileQuickActions(plantName: string): QuickAction[] {
 }
 
 export function collapsedLabelFor(context: GuideContext, mode: ChatMode) {
-  if (mode === "moneyTree") return "Ask Money Tree";
+  if (mode === "moneyTree") return "Ask Olive Tree";
   switch (context) {
     case "library":
       return "Need help finding a plant?";
