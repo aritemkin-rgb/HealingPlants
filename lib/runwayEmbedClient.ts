@@ -3,6 +3,8 @@ export const RUNWAY_CALL_SCRIPT = "https://cdn.dev.runwayml.com/prod/widget-call
 
 export type RunwayCallHandle = { unmount: () => void };
 
+export type RunwayCharacter = "prairie" | "moneyTree";
+
 export type RunwayLiveSession = {
   sessionId: string;
   avatarId: string;
@@ -20,19 +22,34 @@ declare global {
   }
 }
 
-export async function createLiveSageSession(): Promise<RunwayLiveSession> {
+export async function requestSageMicrophone() {
+  if (!navigator.mediaDevices?.getUserMedia) {
+    throw new Error("mic");
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    stream.getTracks().forEach((track) => track.stop());
+  } catch {
+    throw new Error("mic");
+  }
+}
+
+async function requestSageSession(
+  character: RunwayCharacter = "prairie",
+): Promise<RunwayLiveSession> {
   const origin = window.location.origin;
   const created = await fetch("/api/runway-embed-session", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ origin }),
+    body: JSON.stringify({ origin, character }),
   });
   const body = (await created.json()) as Partial<RunwayLiveSession> & {
     error?: string;
+    detail?: string;
   };
   if (!created.ok) {
-    const err = new Error(body.error === "origin" ? "origin" : "connect");
-    err.cause = origin;
+    const err = new Error(body.error || "connect");
+    err.cause = body.detail || origin;
     throw err;
   }
   if (!body.sessionId || !body.sessionKey) {
@@ -45,6 +62,45 @@ export async function createLiveSageSession(): Promise<RunwayLiveSession> {
     avatarId: body.avatarId ?? "",
     sessionKey: body.sessionKey,
   };
+}
+
+export async function createLiveSageSession(
+  character: RunwayCharacter = "prairie",
+): Promise<RunwayLiveSession> {
+  try {
+    return await requestSageSession(character);
+  } catch (cause) {
+    if (cause instanceof Error && cause.message === "busy") {
+      await new Promise((resolve) => setTimeout(resolve, 4000));
+      return requestSageSession(character);
+    }
+    throw cause;
+  }
+}
+
+export function sageCallMountNode(host: HTMLElement) {
+  const shadow = host.shadowRoot ?? host.attachShadow({ mode: "open" });
+  let frame = shadow.querySelector<HTMLElement>("[data-sage-call]");
+  if (!frame) {
+    const css = document.createElement("style");
+    css.textContent = `
+      :host { display: block; height: 100%; width: 100%; }
+      [data-sage-call] { height: 100%; width: 100%; }
+      [data-sage-call] video,
+      [data-sage-call] canvas,
+      [data-sage-call] iframe {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+    `;
+    frame = document.createElement("div");
+    frame.setAttribute("data-sage-call", "");
+    shadow.append(css, frame);
+  } else {
+    frame.replaceChildren();
+  }
+  return frame;
 }
 
 export async function loadRunwayCallUI() {

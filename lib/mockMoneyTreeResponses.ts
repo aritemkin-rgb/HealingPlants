@@ -12,10 +12,9 @@ function listNames(names: string[]) {
 }
 
 const kindFromText = (text: string): ProductKind | undefined => {
-  if (/seed/.test(text)) return "seeds";
-  if (/tool|grow|pot|soil|grit|shear|tray/.test(text)) return "growing";
-  if (/shopify|coming|future|soon/.test(text)) return "future";
-  if (/product|salve|kit|buy|shop/.test(text)) return "product";
+  if (/tea|herb|petal|loose/.test(text)) return "teas-and-herbs";
+  if (/liquid|oil|gel|drop|salve|tincture|extract/.test(text)) return "liquid";
+  if (/capsule|supplement|pill/.test(text)) return "supplements";
   return undefined;
 };
 
@@ -83,13 +82,11 @@ export function getMoneyTreeReply(input: {
   if (kind) {
     const matched = getProductsByKind(kind);
     const headline =
-      kind === "future"
-        ? "These are labeled coming for a reason. Future Shopify paths, not a fake cart."
-        : kind === "seeds"
-          ? "Seeds first. Cheap, honest, and a little chaotic — the right way to start a healing garden."
-          : kind === "growing"
-            ? "Tools and soil. The unglamorous half of plant work, which is most of plant work."
-            : "Mock products — salves, starts, kits. Touch the cards. Buy is a rehearsal until Shopify is live.";
+      kind === "teas-and-herbs"
+        ? "Teas and dried herbs. Leaf, flower, berry — the stall you can steep."
+        : kind === "liquid"
+          ? "Liquids — oils, gels, drops, and extracts. Touch the cards. Buy is a rehearsal until Shopify is live."
+          : "Capsules and supplements. Prepared goods, not a seed packet."
     return {
       text: `${headline} On the shelf: ${listNames(matched.map((item) => item.name))}.`,
       suggestions: [
@@ -103,11 +100,11 @@ export function getMoneyTreeReply(input: {
   }
 
   return {
-    text: "I can fetch mock products, seeds, growing tools, or a plant-matched shelf. I can also send you back to Prairie Sage. Or close me and click. I like a customer who already knows how to walk a market.",
+    text: "I can fetch liquids, supplements, teas and herbs, or a plant-matched shelf. I can also send you back to Prairie Sage. Or close me and click. I like a customer who already knows how to walk a market.",
     suggestions: [
-      { label: "Seeds", href: "/marketplace?kind=seeds" },
-      { label: "Growing tools", href: "/marketplace?kind=growing" },
-      { label: "Mock products", href: "/marketplace?kind=product" },
+      { label: "Liquids", href: "/marketplace?kind=liquid" },
+      { label: "Supplements", href: "/marketplace?kind=supplements" },
+      { label: "Teas and herbs", href: "/marketplace?kind=teas-and-herbs" },
       { label: "Back to Prairie Sage", href: "/healing-guide" },
     ],
   };

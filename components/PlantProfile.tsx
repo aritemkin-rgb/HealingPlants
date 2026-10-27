@@ -98,7 +98,7 @@ export function PlantProfile({ plant }: { plant: Plant }) {
         </p>
         {shop.length === 0 ? (
           <p className="mt-3 font-light text-[rgba(243,235,221,0.75)]">
-            No mock product yet.{" "}
+            No stall listing yet.{" "}
             <Link href="/marketplace" className="underline">
               Browse the stall
             </Link>
@@ -107,10 +107,27 @@ export function PlantProfile({ plant }: { plant: Plant }) {
         ) : (
           <ul className="mt-4 grid gap-3 md:grid-cols-2">
             {shop.map((product) => (
-              <li key={product.slug} className="rounded-2xl bg-white p-4 text-[var(--ink)]">
-                <p className="font-display text-xl">{product.name}</p>
-                <p className="text-sm font-light text-[var(--ink-soft)]">{product.blurb}</p>
-                <p className="mt-2">{product.price}</p>
+              <li key={product.slug}>
+                <Link
+                  href={`/marketplace/${product.slug}`}
+                  className="flex gap-3 rounded-2xl bg-white p-4 text-[var(--ink)] hover:ring-1 hover:ring-[rgba(44,36,22,0.12)]"
+                >
+                  {product.image ? (
+                    <div className="h-20 w-20 shrink-0">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="h-full w-full object-contain object-center"
+                      />
+                    </div>
+                  ) : null}
+                  <div className="min-w-0">
+                    <p className="font-display text-xl">{product.name}</p>
+                    <p className="text-sm font-light text-[var(--ink-soft)]">{product.blurb}</p>
+                    <p className="mt-2">{product.price}</p>
+                  </div>
+                </Link>
               </li>
             ))}
           </ul>

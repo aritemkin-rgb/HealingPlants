@@ -14,7 +14,10 @@ export function isLocalRunwayOrigin(origin: string) {
   );
 }
 
-export function runwayOriginHelp(currentOrigin: string) {
+export function runwayOriginHelp(
+  currentOrigin: string,
+  characterName = "Sage",
+) {
   const lines = [
     ...new Set([
       ...LOCAL_RUNWAY_ORIGINS,
@@ -22,5 +25,9 @@ export function runwayOriginHelp(currentOrigin: string) {
       currentOrigin,
     ]),
   ];
-  return `Runway is not allowing ${currentOrigin}. Open the Sage character in Runway → Embed → Allowed origins → Edit, and add these, one per line:\n${lines.join("\n")}`;
+  return `Runway is not allowing ${currentOrigin}. Open the ${characterName} character in Runway → Embed → Allowed origins → Edit, and add these, one per line:\n${lines.join("\n")}`;
+}
+
+export function runwayKeyHelp(characterName = "Sage") {
+  return `${characterName}’s Runway public key was rejected. Open that character in Runway → Embed, copy a new public key from the script (data-pub-key), and replace the one in this project. Allowed origins should still include localhost and healingplantsoftheworld.net.`;
 }

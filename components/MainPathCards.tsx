@@ -17,7 +17,7 @@ const pathways = [
     href: "/marketplace",
     kicker: "Converts",
     title: "Marketplace",
-    body: "Seeds, mock products, growing tools, and future Shopify paths.",
+    body: "Liquids, supplements, teas and herbs — and future Shopify paths.",
   },
 ];
 

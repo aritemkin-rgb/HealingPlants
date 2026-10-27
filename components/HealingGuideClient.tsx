@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CategorySelector } from "@/components/CategorySelector";
 import { IssueSelector } from "@/components/IssueSelector";
-import { PlantPortrait } from "@/components/PlantPortrait";
 import { PrairieSageGuide } from "@/components/PrairieSageGuide";
 import { SafetyNote } from "@/components/SafetyNote";
 import {
@@ -136,16 +135,9 @@ function PlantWindow({
       <p className="font-condensed text-[0.78rem] font-medium uppercase tracking-[0.18em] text-[var(--guide-purple)]">
         Highest on this path
       </p>
-      <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
-        <h3 className="min-w-[7rem] flex-1 font-display text-3xl leading-tight text-[var(--ink)] md:text-4xl">
-          {plant.name}
-        </h3>
-        <PlantPortrait
-          slug={plant.slug}
-          name={plant.name}
-          className="h-32 w-32 shrink-0 md:h-40 md:w-40"
-        />
-      </div>
+      <h3 className="mt-3 font-display text-3xl leading-tight text-[var(--ink)] md:text-4xl">
+        {plant.name}
+      </h3>
 
       <div className="mt-5 grid gap-4 sm:grid-cols-[8.5rem_minmax(0,1fr)]">
         <nav className="flex flex-col">
@@ -379,23 +371,14 @@ export function HealingGuideClient() {
               <p className="font-condensed text-[0.72rem] font-medium uppercase tracking-[0.18em] text-[var(--guide-purple)]">
                 Also on this path
               </p>
-              <div className="mt-3 flex flex-wrap gap-5">
+              <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
                 {morePlants.map((item) => (
                   <Link
                     key={item.plant.slug}
                     href={`/library/${item.plant.slug}`}
-                    className="flex w-20 flex-col items-center text-center"
+                    className="font-display text-lg leading-tight text-[var(--ink)] hover:underline"
                   >
-                    <PlantPortrait
-                      slug={item.plant.slug}
-                      name={item.plant.name}
-                      size="thumb"
-                      circle
-                      className="h-20 w-20"
-                    />
-                    <span className="mt-1.5 text-sm text-[var(--ink)]">
-                      {item.plant.name}
-                    </span>
+                    {item.plant.name}
                   </Link>
                 ))}
               </div>

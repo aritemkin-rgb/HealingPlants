@@ -88,21 +88,21 @@ export const prairieQuickActions: QuickAction[] = [
 export const moneyTreeQuickActions: QuickAction[] = [
   {
     id: "products",
-    label: "Show products",
-    prompt: "Show me mock products.",
-    href: "/marketplace?kind=product",
+    label: "Liquids",
+    prompt: "Show me liquids.",
+    href: "/marketplace?kind=liquid",
   },
   {
-    id: "seeds",
-    label: "Seeds",
-    prompt: "I want to see seeds.",
-    href: "/marketplace?kind=seeds",
+    id: "supplements",
+    label: "Supplements",
+    prompt: "Show me supplements.",
+    href: "/marketplace?kind=supplements",
   },
   {
-    id: "tools",
-    label: "Growing tools",
-    prompt: "Show growing tools.",
-    href: "/marketplace?kind=growing",
+    id: "teas",
+    label: "Teas and herbs",
+    prompt: "Show teas and herbs.",
+    href: "/marketplace?kind=teas-and-herbs",
   },
   {
     id: "by-plant",

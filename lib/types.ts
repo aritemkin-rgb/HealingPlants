@@ -74,7 +74,7 @@ export type Plant = {
   gardenNotes: string[];
 };
 
-export type ProductKind = "product" | "seeds" | "growing" | "future";
+export type ProductKind = "liquid" | "supplements" | "teas-and-herbs";
 
 export type Product = {
   slug: string;
@@ -83,5 +83,6 @@ export type Product = {
   plantSlug?: string;
   price: string;
   blurb: string;
+  image?: string;
   shopifyPath?: string;
 };

@@ -4,13 +4,16 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   createLiveSageSession,
   loadRunwayCallUI,
+  requestSageMicrophone,
   RUNWAY_EMBED_API,
+  sageCallMountNode,
   type RunwayCallHandle,
 } from "@/lib/runwayEmbedClient";
-import { runwayOriginHelp } from "@/lib/runwayOrigins";
+import { runwayKeyHelp, runwayOriginHelp } from "@/lib/runwayOrigins";
 import { sageFull } from "@/lib/media";
 
 type TalkStatus = "idle" | "connecting" | "live" | "error";
+type MicPrompt = "hidden" | "ask" | "blocked";
 
 const TALK_EVENT = "hpw:talk-sage";
 
@@ -33,29 +36,38 @@ export function PrairieSageGuide({
   const callRef = useRef<RunwayCallHandle | null>(null);
   const [status, setStatus] = useState<TalkStatus>("idle");
   const [error, setError] = useState("");
+  const [micPrompt, setMicPrompt] = useState<MicPrompt>("hidden");
 
   const stopTalk = useCallback(() => {
     callRef.current?.unmount();
     callRef.current = null;
-    if (mountRef.current) mountRef.current.replaceChildren();
+    mountRef.current?.shadowRoot
+      ?.querySelector("[data-sage-call]")
+      ?.replaceChildren();
     setStatus("idle");
     setError("");
+    setMicPrompt("hidden");
     onClose();
   }, [onClose]);
 
   const startTalk = useCallback(async () => {
     if (status === "connecting" || status === "live") return;
     setError("");
+    setMicPrompt("ask");
     setStatus("connecting");
     onOpen();
     mountRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
 
     try {
-      const live = await createLiveSageSession();
-      const frame = mountRef.current;
-      if (!frame) throw new Error("connect");
-      const mountCallUI = await loadRunwayCallUI();
-      frame.replaceChildren();
+      const [, mountCallUI] = await Promise.all([
+        requestSageMicrophone(),
+        loadRunwayCallUI(),
+      ]);
+      setMicPrompt("hidden");
+      const live = await createLiveSageSession("prairie");
+      const host = mountRef.current;
+      if (!host) throw new Error("connect");
+      const frame = sageCallMountNode(host);
       callRef.current = mountCallUI(frame, {
         avatarId: live.avatarId,
         sessionId: live.sessionId,
@@ -82,18 +94,30 @@ export function PrairieSageGuide({
           : window.location.origin;
       const reason = cause instanceof Error ? cause.message : "connect";
       setStatus("error");
+      if (reason === "mic") {
+        setMicPrompt("blocked");
+        setError("");
+        return;
+      }
+      setMicPrompt("hidden");
+      const messages: Record<string, string> = {
+        origin: runwayOriginHelp(pageOrigin, "Prairie Sage"),
+        key: runwayKeyHelp("Prairie Sage"),
+        busy: "Sage is on another call. Wait about a minute, then click Talk with Healing Guide again.",
+        timeout: "Sage took too long to wake. Try Talk with Healing Guide again.",
+        script: "Sage’s video player did not load. Refresh the page, then try again.",
+      };
       setError(
-        reason === "origin"
-          ? runwayOriginHelp(pageOrigin)
-          : "Sage could not start the live call. Allow the microphone, then try Talk with Healing Guide again.",
+        messages[reason] ??
+          "Sage could not start the live call. Wait a minute and try Talk with Healing Guide again.",
       );
     }
   }, [onClose, onOpen, status]);
 
   useEffect(() => {
-    if (!open) return;
-    if (status === "idle") void startTalk();
-  }, [open, startTalk, status]);
+    if (!open || status !== "idle") return;
+    setMicPrompt("ask");
+  }, [open, status]);
 
   useEffect(() => {
     function onTalk() {
@@ -104,6 +128,7 @@ export function PrairieSageGuide({
   }, [startTalk]);
 
   useEffect(() => {
+    void loadRunwayCallUI();
     return () => {
       callRef.current?.unmount();
     };
@@ -125,7 +150,7 @@ export function PrairieSageGuide({
               className="pointer-events-none absolute inset-0 mx-auto h-[32rem] w-auto max-w-full object-contain object-top"
             />
             <div className="absolute bottom-[4%] left-1/2 flex w-[12.5rem] -translate-x-1/2 flex-col items-center gap-2">
-              {status === "connecting" ? (
+              {status === "connecting" && micPrompt !== "ask" ? (
                 <p className="rounded-full bg-[var(--gold)] px-3 py-2 text-center font-condensed text-[0.68rem] uppercase tracking-[0.12em] text-[var(--soil-brown)] shadow-sm">
                   Sage is waking…
                 </p>
@@ -150,10 +175,74 @@ export function PrairieSageGuide({
           </button>
         )}
       </div>
-      {status === "error" ? (
+      {status === "error" && error ? (
         <p className="mt-3 max-w-sm whitespace-pre-line text-sm font-light leading-relaxed text-[var(--ink)]">
           {error}
         </p>
+      ) : null}
+
+      {micPrompt !== "hidden" ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(16,12,8,0.45)] px-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="sage-mic-title"
+            className="w-full max-w-md rounded-2xl bg-white p-6 shadow-lg"
+          >
+            {micPrompt === "ask" ? (
+              <>
+                <h2
+                  id="sage-mic-title"
+                  className="font-display text-xl text-[var(--ink)]"
+                >
+                  Sage needs your microphone
+                </h2>
+                <p className="mt-3 text-sm font-light leading-relaxed text-[var(--ink)]">
+                  Chrome will show a popup at the top of this window. Click{" "}
+                  <strong>Allow</strong> so Sage can hear you.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => void startTalk()}
+                  className="mt-5 w-full rounded-full bg-[var(--gold)] px-4 py-3 font-condensed text-[0.75rem] uppercase tracking-[0.12em] text-[var(--soil-brown)]"
+                >
+                  Allow microphone
+                </button>
+              </>
+            ) : (
+              <>
+                <h2
+                  id="sage-mic-title"
+                  className="font-display text-xl text-[var(--ink)]"
+                >
+                  Microphone is blocked
+                </h2>
+                <p className="mt-3 text-sm font-light leading-relaxed text-[var(--ink)]">
+                  Click the lock to the left of healingplantsoftheworld.net,
+                  set Microphone to Allow, then try again.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => void startTalk()}
+                  className="mt-5 w-full rounded-full bg-[var(--gold)] px-4 py-3 font-condensed text-[0.75rem] uppercase tracking-[0.12em] text-[var(--soil-brown)]"
+                >
+                  Try again
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMicPrompt("hidden");
+                    setStatus("idle");
+                    onClose();
+                  }}
+                  className="mt-2 w-full rounded-full px-4 py-2 font-condensed text-[0.72rem] uppercase tracking-[0.12em] text-[var(--ink)]"
+                >
+                  Close
+                </button>
+              </>
+            )}
+          </div>
+        </div>
       ) : null}
     </aside>
   );
