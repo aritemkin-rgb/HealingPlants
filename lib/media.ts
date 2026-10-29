@@ -1,11 +1,18 @@
 /** Image map from the July 256 trial + October plant stills. Do not invent plants here. */
 
 export const sageFull = "/assets/characters/full/prairie-sage.png";
-export const sageClose = "/assets/characters/close/prairie-sage.png";
+export const sageClose = "/assets/characters/close/prairie-sage-portrait.jpg";
+export const sageTalk = "/assets/characters/close/prairie-sage-talk.jpg";
 export const sageBubble = "/assets/characters/bubbles/prairie-sage.png";
 export const sageHomeVideo = "/assets/home/prairie-sage.mp4";
+export const arnicaLibraryVideo = "/assets/library/arnica.mp4";
+export const arnicaLibraryPoster = "/assets/library/arnica-poster.jpg";
+export const plantCabinetVideo = "/assets/stall/plant-cabinet.mp4";
+export const plantCabinetPoster = "/assets/stall/plant-cabinet-poster.jpg";
 export const sageLoadingVideo = "/assets/loading/prairie-sage.mp4";
 export const oliveTreeFull = "/assets/characters/full/olive-tree.png";
+export const oliveTreeClose = "/assets/characters/close/olive-tree-portrait.png";
+export const oliveTreeTalk = "/assets/characters/close/olive-tree-talk.jpg";
 export const oliveTreeBubble = "/assets/characters/bubbles/olive-tree.png";
 export const oliveTreeHomeVideo = "/assets/home/olive-tree.mp4";
 export const moneyTreeFull = oliveTreeFull;

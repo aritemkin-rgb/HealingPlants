@@ -18,7 +18,7 @@ export function IssueSelector({
         max={5}
         value={safe}
         onChange={(event) => onChange(Number(event.target.value))}
-        className="mt-2 w-full accent-[var(--leaf)]"
+        className="guide-intensity mt-2 w-full"
       />
       <span className="mt-1 block font-condensed text-[0.68rem] uppercase tracking-[0.14em] text-[var(--ink)]">
         {safe <= 2 ? "Gentle looking" : safe >= 4 ? "More pressing" : "In the middle"}

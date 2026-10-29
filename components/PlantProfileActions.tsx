@@ -12,7 +12,7 @@ export function PlantProfileActions({ plant }: { plant: Plant }) {
       </Link>
       <Link
         href="/#archive"
-        className="rounded-full bg-white px-4 py-2 font-condensed text-[0.72rem] uppercase tracking-[0.14em] text-[var(--ink)]"
+        className="rounded-full border border-[rgba(44,36,22,0.18)] bg-white px-4 py-2 font-condensed text-[0.72rem] uppercase tracking-[0.14em] text-[var(--ink)]"
       >
         Back to archive
       </Link>

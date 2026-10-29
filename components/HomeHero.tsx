@@ -160,9 +160,6 @@ export function HomeHero() {
               You are entering a character-led plant discovery world.
             </span>
           </h1>
-          <p className="mx-auto mt-4 max-w-sm text-sm font-light leading-relaxed text-[var(--ink-soft)]">
-            Prairie Sage orients. Click through, or talk.
-          </p>
         </div>
 
         <div className="order-3">

@@ -33,13 +33,6 @@ const plantTabs: { id: PlantTab; label: string }[] = [
   { id: "grow", label: "Grow" },
 ];
 
-function listLabels(labels: string[]) {
-  if (labels.length === 0) return "";
-  if (labels.length === 1) return labels[0];
-  if (labels.length === 2) return `${labels[0]} and ${labels[1]}`;
-  return `${labels.slice(0, -1).join(", ")}, and ${labels[labels.length - 1]}`;
-}
-
 function fingerprint(selection: GuideSelection) {
   return `${selection.concerns.join(",")}|${selection.issues.join(",")}|${selection.intensity}`;
 }
@@ -205,8 +198,6 @@ export function HealingGuideClient() {
   );
   const { concerns, issues, intensity } = selection;
   const results = getRecommendations({ concerns, issues, intensity });
-  const selectedLabels = concerns.map((id) => getCategory(id)?.label ?? id);
-  const overlapCount = results.filter((item) => item.matchedConcerns.length > 1).length;
   const topPlant = results[0];
   const morePlants = results.slice(1);
   const selectedCategories = healingCategories.filter((item) =>
@@ -288,9 +279,9 @@ export function HealingGuideClient() {
         section.
       </p>
 
-      <div className="mt-5 grid items-start gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(24rem,1fr)]">
+      <div className="mt-5 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(26rem,32rem)]">
         <div className="flex min-w-0 flex-col">
-          <div className="flex max-w-xl flex-wrap gap-2">
+          <div className="flex max-w-xl flex-wrap items-center gap-2">
             <CategorySelector
               selected={concerns}
               selectedIssues={issues}
@@ -298,35 +289,20 @@ export function HealingGuideClient() {
               onToggleIssue={toggleIssue}
               compact
             />
-            <button
-              type="button"
-              onClick={() => write({ concerns: [], issues: [], intensity: 3 })}
-              className={`rounded-full border border-[rgba(44,36,22,0.16)] px-3 py-1.5 font-condensed text-[0.68rem] uppercase tracking-[0.12em] ${
-                concerns.length === 0 ? "invisible" : ""
-              }`}
-            >
-              Clear
-            </button>
+            {concerns.length > 0 ? (
+              <button
+                type="button"
+                onClick={() => write({ concerns: [], issues: [], intensity: 3 })}
+                className="ml-1 font-condensed text-[0.62rem] uppercase tracking-[0.16em] text-[var(--ink-soft)] underline decoration-[rgba(44,36,22,0.28)] underline-offset-4 hover:text-[var(--ink)]"
+              >
+                Clear all
+              </button>
+            ) : null}
           </div>
-          <p className="mt-3 text-sm font-light text-[var(--ink-soft)]">
-            {concerns.length === 0
-              ? "Tap a concern. Sage stays on the right if you want to talk."
-              : concerns.length > 1
-                ? `You chose ${listLabels(selectedLabels)}. ${
-                    overlapCount
-                      ? "Overlap comes first on the path."
-                      : "A small group for this mix."
-                  }`
-                : `A small group for ${selectedLabels[0]}.`}
-          </p>
 
           <div className="mt-4 rounded-2xl bg-[rgba(88,57,150,0.05)] p-3 md:p-4">
-            {selectedCategories.length === 0 ? (
-              <p className="text-sm font-light leading-relaxed text-[var(--ink-soft)]">
-                Restless sleep, bloating, sore muscle — chips wait here.
-              </p>
-            ) : (
-              <div className="space-y-3">
+            {selectedCategories.length > 0 ? (
+              <div className="mb-4 space-y-3">
                 {selectedCategories.map((category) => (
                   <div key={category.id}>
                     <p className="mb-1.5 font-condensed text-[0.68rem] uppercase tracking-[0.14em] text-[var(--guide-purple)]">
@@ -355,13 +331,11 @@ export function HealingGuideClient() {
                   </div>
                 ))}
               </div>
-            )}
-            <div className="mt-4 border-t border-[rgba(88,57,150,0.12)] pt-3">
-              <IssueSelector
-                intensity={intensity}
-                onChange={(value) => write({ concerns, issues, intensity: value })}
-              />
-            </div>
+            ) : null}
+            <IssueSelector
+              intensity={intensity}
+              onChange={(value) => write({ concerns, issues, intensity: value })}
+            />
           </div>
 
           <PlantWindow topPlant={topPlant} onChat={openSage} />

@@ -19,26 +19,57 @@ function LinkedInMark() {
 export function DirtStory() {
   return (
     <div className="relative z-10 min-h-[100svh] w-full">
-      <div className="mx-auto grid max-w-[90rem] grid-cols-1 px-8 pb-[42vh] pt-10 md:grid-cols-[15rem_minmax(0,1fr)_15rem] md:px-16 md:pb-[34vh] md:pt-8 lg:px-24">
+      <div className="mx-auto grid max-w-[90rem] grid-cols-1 px-8 pb-[42vh] pt-10 md:grid-cols-[minmax(16rem,22rem)_minmax(0,1fr)_minmax(18rem,26rem)] md:px-16 md:pb-[34vh] md:pt-8 lg:px-24">
         <div>
           <h3 className="dirt-title">mission</h3>
           <p className="dirt-copy">
-            A character-led path from how you feel to the plant, then the
-            stall.
+            To unite the world’s botanical knowledge—scientific, medicinal,
+            cultural, and ancestral—through intelligent plant characters,
+            unlocking new ideas and solutions for humanity and nature.
           </p>
-          <h3 className="dirt-title mt-[4.5rem]">vision</h3>
+          <h3 className="dirt-title mt-[7.5rem]">vision</h3>
           <p className="dirt-copy">
-            Knowledge in the ground. The people of the plants wait in the
-            light.
+            A future where humanity and nature are connected through shared
+            knowledge, discovery, and a deeper understanding of healing each
+            other.
           </p>
         </div>
         <div aria-hidden className="hidden md:block" />
         <div className="mt-16 flex h-full flex-col justify-between md:mt-0">
           <div>
-            <h3 className="dirt-title">about</h3>
-            <p className="dirt-copy">
-              Educational plant guidance. Not a diagnosis.
-            </p>
+            <h3 className="dirt-title">about our story</h3>
+            <div className="dirt-copy-wide space-y-3">
+              <p>
+                We are plant lovers, nature lovers, and explorers of the
+                extraordinary relationship between humanity and the natural
+                world. Through our travels across cultures and continents, we
+                have witnessed the depth of botanical knowledge developed over
+                thousands of years—and the growing risk of losing it.
+              </p>
+              <p>
+                For centuries, plants have played a fundamental role in human
+                health, cultural identity, and our relationship with the planet.
+                Yet much of this knowledge remains fragmented across scientific
+                institutions, traditional healing practices, ancestral
+                communities, historical archives, and geographic boundaries.
+                Some of it is disappearing, while much of what survives remains
+                difficult for the public to discover, understand, and apply.
+              </p>
+              <p>
+                Healing Plants of the World was born from a simple idea: What if
+                we could bring the world’s botanical knowledge and cultural
+                history together—and give plants a voice?
+              </p>
+              <p>
+                Today, artificial intelligence creates an unprecedented
+                opportunity to connect information that has historically existed
+                in separate worlds. Biology, medicine, pharmacology, evolution,
+                ecology, traditional practices, and cultural histories can
+                become part of an interconnected, continuously expanding body of
+                knowledge.
+              </p>
+              <p>But bringing information together is only the beginning.</p>
+            </div>
           </div>
           <div className="mt-16 flex items-center gap-4 pb-1 text-white md:mt-24">
             <span className="inline-flex" aria-label="Instagram">

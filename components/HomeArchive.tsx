@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { ArchiveFeature } from "@/components/ArchiveFeature";
+import { DirtAmbassadors } from "@/components/DirtAmbassadors";
 import { DirtStory } from "@/components/DirtStory";
-import { PlantPortrait } from "@/components/PlantPortrait";
+import { SafetyNote } from "@/components/SafetyNote";
 import { dirtLayer } from "@/lib/media";
 import { concerns, plants, searchPlants } from "@/lib/plants";
-import { MEDICAL_DISCLAIMER } from "@/lib/safetyRules";
 import type { Plant, PlantConcern } from "@/lib/types";
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -41,7 +41,7 @@ function IndexMark({
       disabled={disabled}
       onClick={onClick}
       aria-current={on ? "true" : undefined}
-      className={`font-condensed tracking-wide transition-colors ${
+      className={`font-condensed text-[1.05rem] tracking-wide transition-colors md:text-[1.15rem] ${
         on
           ? "text-[var(--gold)]"
           : disabled
@@ -61,6 +61,7 @@ export function HomeArchive() {
   const [activeLetter, setActiveLetter] = useState("A");
   const [activeRegion, setActiveRegion] = useState("Africa");
   const [activeBenefit, setActiveBenefit] = useState<PlantConcern>("sleep");
+  const [clickedThrough, setClickedThrough] = useState(false);
   const filtered = useMemo(() => searchPlants(query), [query]);
   const featured =
     filtered.find((plant) => plant.slug === selectedSlug) ??
@@ -148,24 +149,25 @@ export function HomeArchive() {
     const group = letterGroups.get(letter) ?? [];
     if (group.length === 0) return;
     setActiveLetter(letter);
-    setSelectedSlug(group[0].slug);
+    if (clickedThrough) setSelectedSlug(group[0].slug);
   }
 
   function openRegion(region: string) {
     const group = regionGroups.find((item) => item.label === region)?.list ?? [];
     if (group.length === 0) return;
     setActiveRegion(region);
-    setSelectedSlug(group[0].slug);
+    if (clickedThrough) setSelectedSlug(group[0].slug);
   }
 
   function openBenefit(id: PlantConcern) {
     const group = benefitGroups.find((item) => item.id === id)?.list ?? [];
     if (group.length === 0) return;
     setActiveBenefit(id);
-    setSelectedSlug(group[0].slug);
+    if (clickedThrough) setSelectedSlug(group[0].slug);
   }
 
   function openPlant(plant: Plant) {
+    setClickedThrough(true);
     setSelectedSlug(plant.slug);
     setActiveLetter(archiveLetter(plant.name));
     setActiveRegion(plant.region);
@@ -199,26 +201,7 @@ export function HomeArchive() {
             </label>
 
             {featured ? (
-              <div className="mt-8 flex flex-col items-center text-center">
-                <Link
-                  href={`/library/${featured.slug}`}
-                  className="flex justify-center"
-                  aria-label={`Open ${featured.name} profile`}
-                >
-                  <PlantPortrait
-                    slug={featured.slug}
-                    name={featured.name}
-                    onDirt
-                    className="h-48 w-48 md:h-56 md:w-56 lg:h-64 lg:w-64"
-                  />
-                </Link>
-                <p className="mt-4 font-display text-2xl text-white md:text-3xl">
-                  {featured.name}
-                </p>
-                <p className="mt-2 max-w-xs text-sm font-light leading-relaxed text-[rgba(243,235,221,0.78)]">
-                  Tap the picture to open the profile.
-                </p>
-              </div>
+              <ArchiveFeature plant={featured} showCharacter={!clickedThrough} />
             ) : null}
           </aside>
 
@@ -232,7 +215,7 @@ export function HomeArchive() {
                     type="button"
                     onClick={() => openView(item.id)}
                     aria-current={on ? "true" : undefined}
-                    className={`font-condensed text-[0.75rem] uppercase tracking-[0.2em] ${
+                    className={`font-condensed text-[0.88rem] uppercase tracking-[0.2em] md:text-[0.95rem] ${
                       on
                         ? "text-[var(--gold)]"
                         : "text-[rgba(243,235,221,0.5)] hover:text-white"
@@ -243,7 +226,7 @@ export function HomeArchive() {
                 );
               })}
             </nav>
-            <p className="mt-2 text-sm font-light text-[rgba(243,235,221,0.72)]">
+            <p className="mt-2 text-[0.95rem] font-light text-[rgba(243,235,221,0.72)] md:text-base">
               {filtered.length} plants. Choose a list, then a name.
             </p>
 
@@ -305,7 +288,7 @@ export function HomeArchive() {
                     <h3 className="font-display text-3xl leading-none text-[var(--gold)] md:text-4xl">
                       {heading}
                     </h3>
-                    <p className="pb-1 font-condensed text-[0.68rem] uppercase tracking-[0.16em] text-[rgba(243,235,221,0.55)]">
+                    <p className="pb-1 font-condensed text-[0.78rem] uppercase tracking-[0.16em] text-[rgba(243,235,221,0.55)]">
                       {activePlants.length}{" "}
                       {activePlants.length === 1 ? "plant" : "plants"}
                     </p>
@@ -318,7 +301,7 @@ export function HomeArchive() {
                           <button
                             type="button"
                             onClick={() => openPlant(plant)}
-                            className={`w-full border-l py-0.5 pl-2.5 text-left text-[0.95rem] leading-6 transition-colors ${
+                            className={`w-full border-l py-0.5 pl-2.5 text-left text-[1.05rem] leading-7 transition-colors md:text-[1.12rem] ${
                               on
                                 ? "border-[var(--gold)] text-white"
                                 : "border-transparent text-[rgba(243,235,221,0.86)] hover:text-white"
@@ -336,12 +319,12 @@ export function HomeArchive() {
           </div>
         </div>
 
-        <p className="mx-auto mt-12 max-w-xl text-center text-[0.68rem] font-light leading-relaxed text-[rgba(243,235,221,0.58)]">
-          {MEDICAL_DISCLAIMER}
-        </p>
+        <div className="mx-auto mt-12 max-w-2xl rounded-[1.4rem] bg-white p-4 text-[var(--ink)] md:p-5">
+          <SafetyNote />
+        </div>
       </div>
 
-      <div className="relative z-10 h-24 md:h-40" aria-hidden />
+      <DirtAmbassadors />
 
       <DirtStory />
     </section>

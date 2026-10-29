@@ -18,32 +18,34 @@ export function PlantProfile({ plant }: { plant: Plant }) {
 
   return (
     <article className="mx-auto max-w-6xl px-5 py-10 md:px-8">
-      <p className="font-condensed text-[0.72rem] font-medium uppercase tracking-[0.22em] text-[var(--gold)]">
-        Plant profile · {plant.geography}
-      </p>
-      <div className="mt-4 grid items-start gap-10 lg:grid-cols-[1.1fr_auto]">
-        <div>
-          <h1 className="font-display text-5xl text-[var(--parchment)]">{plant.name}</h1>
+      <div className="mt-4 grid items-start gap-6 lg:grid-cols-[1.1fr_auto] lg:gap-8">
+        <div className="rounded-[1.4rem] bg-white p-6 text-[var(--ink)] md:p-8">
+          <p className="font-condensed text-[0.72rem] font-medium uppercase tracking-[0.22em] text-[var(--soil-brown)]">
+            Plant profile · {plant.geography}
+          </p>
+          <h1 className="mt-3 font-display text-5xl">{plant.name}</h1>
           {plant.ambassador ? (
-            <p className="mt-3 font-condensed text-[0.72rem] uppercase tracking-[0.16em] text-[var(--gold)]">
+            <p className="mt-3 font-condensed text-[0.72rem] uppercase tracking-[0.16em] text-[var(--soil-brown)]">
               Ambassador · {plant.ambassador}
               {ambassador && !ambassador.talking ? " · visual presence only" : ""}
             </p>
           ) : null}
-          <p className="mt-5 max-w-2xl text-lg font-light leading-relaxed text-[rgba(243,235,221,0.9)]">
+          <p className="mt-5 max-w-2xl text-lg font-light leading-relaxed">
             {plant.summary}
           </p>
           <PlantProfileActions plant={plant} />
-          <div className="mt-5 max-w-2xl rounded-2xl bg-white p-4 text-[var(--ink)]">
+          <div className="mt-5">
             <SafetyNote />
           </div>
         </div>
-        <PlantPortrait
-          slug={plant.slug}
-          name={plant.name}
-          size="hero"
-          className="h-64 w-64 md:h-72 md:w-72"
-        />
+        <div className="overflow-hidden rounded-[1.4rem] bg-white p-4">
+          <PlantPortrait
+            slug={plant.slug}
+            name={plant.name}
+            size="hero"
+            className="h-64 w-64 md:h-72 md:w-72"
+          />
+        </div>
       </div>
 
       <section className="mt-12 grid gap-6 md:grid-cols-2">

@@ -14,6 +14,12 @@ const acumin = localFont({
   weight: "100 900",
 });
 
+const roundedSans = localFont({
+  src: "./fonts/rounded_sans_serif_7.ttf",
+  variable: "--font-rounded",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Healing Plants of the World",
@@ -28,7 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${acumin.variable} h-full antialiased`}
+      className={`${acumin.variable} ${roundedSans.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-white text-[var(--ink)]">
         <GuideProvider>
